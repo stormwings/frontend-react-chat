@@ -1,7 +1,8 @@
 # frontend-react-chat
 
 # pending tasks
-    - finish chat.jsx
+    - redux
+    - api fetch
     - dark mode
     - tests with jest
     - project to typescript
