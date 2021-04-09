@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import UserList from './UserList'
 import IconChat from './icons/IconChat';
 
-const Nav = ({ contacts }) => {
+const Nav = ({ account, contacts }) => {
+  const users = contacts.filter(contact => contact._id !== account._id);
+
   return (
     <div className="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
       <NavTitle
@@ -13,7 +15,7 @@ const Nav = ({ contacts }) => {
       <div className="flex flex-col mt-8">
         <UserList
           title="Active Conversations"
-          users={contacts}
+          users={users}
         />
       </div>
     </div>
@@ -21,6 +23,7 @@ const Nav = ({ contacts }) => {
 }
 
 Nav.propTypes = {
+  account: PropTypes.object.isRequired,
   contacts: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 

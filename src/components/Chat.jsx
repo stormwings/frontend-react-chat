@@ -5,7 +5,7 @@ import IconAttach from './icons/IconAttach';
 import IconSend from './icons/IconSend';
 
 const Chat = ({ user, messages }) => {
-  const { id: myUserId } = user;
+  const { _id: myUserId } = user;
 
   return (
     <div className="flex flex-col flex-auto h-full p-6">

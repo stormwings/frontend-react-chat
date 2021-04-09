@@ -12,17 +12,13 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const user = {
-    id: "606fac61815c5d139eb553f5"
+  const account = {
+    _id: "606fac61815c5d139eb553f5"
   };
-
-  const activeContacts = [
-    ...usersReducer.users
-  ];
 
   const currentChatMessages = [
     {
-      user: '606519f5d022dc3ed177b5a5',
+      user: '606fac61815c5d139eb553f5',
       message: "hola",
       date: "2021-04-04T04:20:46.994+00:00",
       file: "",
@@ -34,7 +30,7 @@ const App = () => {
       file: "",
     },
     {
-      user: '606519f5d022dc3ed177b5a5',
+      user: '606fac61815c5d139eb553f5',
       message: "que queres",
       date: "2021-04-04T04:20:46.994+00:00",
       file: "",
@@ -51,11 +47,12 @@ const App = () => {
     <div className="flex h-screen antialiased text-gray-800">
       <div className="flex flex-row h-full w-full overflow-x-hidden">
         <Nav
-          contacts={activeContacts}
+          account={account}
+          contacts={usersReducer.users}
         />
         <Chat
           messages={currentChatMessages}
-          user={user}
+          user={account}
         />
       </div>
     </div>
