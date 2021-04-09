@@ -16,7 +16,10 @@ export default class Http {
     try {
       const request = await fetch(url, {
         method: 'POST',
-        body,
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
       const json = await request.json();
       return json;
