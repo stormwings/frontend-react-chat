@@ -1,4 +1,6 @@
 import * as types from "../types";
+import { getArrayRandomItem } from '../../utils/arrayUtils';
+import userUtils from '../../utils/userUtils';
 
 const INITIAL_STATE = {
   loading: false,
@@ -15,7 +17,17 @@ const reducer = (state = INITIAL_STATE, action) => {
       };
     }
     case types.FETCH_USERS_FULLFILLED: {
-      const { users } = action.payload;
+      const { users: fetchedUsers } = action.payload;
+
+      const users = fetchedUsers.map(({ _id, name }) => {
+        const userTheme = getArrayRandomItem(userUtils.themeColors);
+
+        return {
+          _id,
+          name,
+          userTheme,
+        }
+      })
 
       return {
         ...state,
