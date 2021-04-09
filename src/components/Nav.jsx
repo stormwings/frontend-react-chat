@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import UserList from './UserList'
 import IconChat from './icons/IconChat';
 
-const Nav = ({ account, contacts }) => {
+const Nav = ({ account, contacts, onClick }) => {
   const users = contacts.filter(contact => contact._id !== account._id);
 
   return (
@@ -16,6 +16,7 @@ const Nav = ({ account, contacts }) => {
         <UserList
           title="Active Conversations"
           users={users}
+          onClick={onClick}
         />
       </div>
     </div>
@@ -23,8 +24,8 @@ const Nav = ({ account, contacts }) => {
 }
 
 Nav.propTypes = {
-  account: PropTypes.object.isRequired,
   contacts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onClick: PropTypes.func.isRequired,
 }
 
 const NavTitle = ({ title }) => {
