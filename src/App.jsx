@@ -1,45 +1,23 @@
 import React from "react";
 import Chat from "./components/Chat";
 import Nav from './components/Nav'
+import { useUsersReducer } from "./redux/actions/userActions";
 
 const App = () => {
+  const [usersReducer, usersActions] = useUsersReducer()
+
+  React.useEffect(() => {
+    usersActions.getUsers();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const user = {
-    id: "606519f5d022dc3ed177b5a5"
+    id: "606fac61815c5d139eb553f5"
   };
 
   const activeContacts = [
-    {
-      name: "Henry Boyd",
-      userTheme: "indigo",
-    },
-    {
-      name: "Philip Tucker",
-      userTheme: "red",
-    },
-    {
-      name: "Christine Reid",
-      userTheme: "pink",
-    },
-    {
-      name: "Jerry Guzman",
-      userTheme: "purple",
-    },
-    {
-      name: "Mariano Vilarreal",
-      userTheme: "blue",
-    },
-    {
-      name: "Christian Faccio",
-      userTheme: "green",
-    },
-    {
-      name: "Jorge Arias",
-      userTheme: "yellow",
-    },
-    {
-      name: "Jona Aliendro",
-      userTheme: "gray",
-    },
+    ...usersReducer.users
   ];
 
   const currentChatMessages = [
