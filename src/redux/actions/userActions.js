@@ -37,5 +37,5 @@ export const useUsersReducer = () => {
     getUsers,
   };
 
-  return [usersReducer, usersActions];
+  return { usersReducer, usersActions };
 };
