@@ -2,46 +2,41 @@ import React from "react";
 import Chat from "./components/Chat";
 import Nav from './components/Nav'
 import { useUsersReducer } from "./redux/actions/userActions";
+import { useChatsReducer } from "./redux/actions/chatActions";
+import { useMessagesReducer } from "./redux/actions/messageActions";
+
+const account = {
+  _id: "606fac61815c5d139eb553f5"
+};
 
 const App = () => {
-  const [usersReducer, usersActions] = useUsersReducer()
+  const { usersReducer, usersActions } = useUsersReducer();
+  const { chatsReducer, chatsActions } = useChatsReducer();
+  const { messagesReducer, messagesActions } = useMessagesReducer();
 
   React.useEffect(() => {
     usersActions.getUsers();
-
+    chatsActions.getChats(account._id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
-  const account = {
-    _id: "606fac61815c5d139eb553f5"
-  };
+  const onOpenChat = (receptorId) => {
+    const findChatFromReducer = (chat) =>
+      chat.users[0]._id === receptorId ||
+      chat.users[1]._id === receptorId;
 
-  const currentChatMessages = [
-    {
-      user: '606fac61815c5d139eb553f5',
-      message: "hola",
-      date: "2021-04-04T04:20:46.994+00:00",
-      file: "",
-    },
-    {
-      user: '60637dfbd7ace630ab529748',
-      message: "ola k ase",
-      date: "2021-04-04T04:20:46.994+00:00",
-      file: "",
-    },
-    {
-      user: '606fac61815c5d139eb553f5',
-      message: "que queres",
-      date: "2021-04-04T04:20:46.994+00:00",
-      file: "",
-    },
-    {
-      user: '60637dfbd7ace630ab529748',
-      message: "kiere pelea?",
-      date: "2021-04-04T04:20:46.994+00:00",
-      file: "",
-    },
-  ];
+    const chat = chatsReducer.chats.find(
+      findChatFromReducer
+    );
+
+    messagesActions.getMessages(chat._id);
+  }
+
+  const onSendMessage = (message) => {
+    const { chat, user: { _id: user } } = messagesReducer.messages[0];
+
+    messagesActions.addMessage(chat, message, user);
+  }
 
   return (
     <div className="flex h-screen antialiased text-gray-800">
@@ -49,10 +44,12 @@ const App = () => {
         <Nav
           account={account}
           contacts={usersReducer.users}
+          onClick={onOpenChat}
         />
         <Chat
-          messages={currentChatMessages}
+          messages={messagesReducer.messages}
           user={account}
+          onSendMessage={onSendMessage}
         />
       </div>
     </div>
