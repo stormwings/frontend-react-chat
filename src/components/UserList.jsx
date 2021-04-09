@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const UserList = ({ title, users }) => {
+const UserList = ({ title, users, onClick }) => {
   return (
     <React.Fragment>
       <UserListTitle
@@ -10,13 +10,14 @@ const UserList = ({ title, users }) => {
       />
       <div className="flex flex-col space-y-1 mt-4 -mx-2 h-96 overflow-y-auto">
         {users.map((user, index) => {
-          const { name, userTheme } = user;
+          const { _id, name, userTheme } = user;
 
           return (
             <UserListItem
               color={userTheme}
               key={index}
               name={name}
+              onClick={() => onClick(_id)}
             />
           );
         })}
@@ -28,6 +29,7 @@ const UserList = ({ title, users }) => {
 UserList.propTypes = {
   title: PropTypes.string.isRequired,
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onClick: PropTypes.func,
 };
 
 const UserListTitle = ({ cuantity, title }) => {
@@ -50,9 +52,12 @@ UserListTitle.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-const UserListItem = ({ color, name }) => {
+const UserListItem = ({ color, name, onClick }) => {
   return (
-    <button className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
+    <button
+      className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
+      onClick={onClick}
+    >
       <div className={`flex items-center justify-center h-8 w-8 bg-${color}-200 rounded-full`}>
         { name.charAt(0).toUpperCase() }
       </div>
@@ -64,6 +69,7 @@ const UserListItem = ({ color, name }) => {
 UserListItem.propTypes = {
   color: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default UserList;
