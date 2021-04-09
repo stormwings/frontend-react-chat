@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import IconAttach from './icons/IconAttach';
 import IconSend from './icons/IconSend';
 
-const Chat = ({ user, messages }) => {
+const Chat = ({ user, messages, onSendMessage }) => {
   const { _id: myUserId } = user;
 
   return (
@@ -15,7 +15,7 @@ const Chat = ({ user, messages }) => {
             <div className="grid grid-cols-12 gap-y-2">
               {
                 messages.map((message, index) => {
-                  const MessageComponent = message.user === myUserId
+                  const MessageComponent = message.user._id === myUserId
                     ? MessageSent
                     : MessageReceived
 
@@ -30,7 +30,9 @@ const Chat = ({ user, messages }) => {
             </div>
           </div>
         </div>
-        <TextPanel />
+        <TextPanel
+          onSendMessage={onSendMessage}
+        />
       </div>
     </div>
   );
@@ -39,6 +41,7 @@ const Chat = ({ user, messages }) => {
 Chat.propTypes = {
   user: PropTypes.object.isRequired,
   messages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onSendMessage: PropTypes.func,
 }
 
 const MessageReceived = ({ message }) => {
@@ -80,7 +83,9 @@ MessageSent.propTypes = {
   message: PropTypes.string.isRequired,
 }
 
-const TextPanel = () => {
+const TextPanel = ({ onSendMessage }) => {
+  const [message, setMessage] = React.useState('');
+
   return (
     <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
       <div>
@@ -91,13 +96,19 @@ const TextPanel = () => {
       <div className="flex-grow ml-4">
         <div className="relative w-full">
           <input
+            onChange={ e => setMessage(e.target.value) }
             type="text"
             className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
           />
         </div>
       </div>
       <div className="ml-4">
-        <button className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0">
+        <button
+          className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
+          onClick={() => {
+            onSendMessage(message);
+          }}
+        >
           <span>Send</span>
           <span className="ml-2">
             <IconSend />
@@ -109,7 +120,7 @@ const TextPanel = () => {
 }
 
 TextPanel.propTypes = {
-
+  onSendMessage: PropTypes.func.isRequired,
 }
 
 export default Chat
