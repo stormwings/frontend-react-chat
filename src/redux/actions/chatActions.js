@@ -22,12 +22,51 @@ export const fetchChats = (userId) => (dispatch) => {
     });
 };
 
+export const createChat = (senderId, receiverId) => async (dispatch) => {
+  dispatch({ type: types.CREATE_CHAT_PENDING });
+
+  await Http.instance
+    .post(urlChat, { users: [senderId, receiverId] })
+    .then(({ body }) => {
+      dispatch({
+        type: types.CREATE_CHAT_FULLFILLED,
+        payload: { newChat: body },
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: types.CREATE_CHAT_REJECTED,
+        payload: { error },
+      });
+    });
+
+  // (pending) not repeat!
+  await Http.instance
+    .get(`${urlChat}/${senderId}`)
+    .then(({ body }) => {
+      dispatch({
+        type: types.FETCH_CHATS_FULLFILLED,
+        payload: { chats: body },
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: types.FETCH_CHATS_REJECTED,
+        payload: { error },
+      });
+    });
+};
+
 export const useChatsReducer = () => {
   const { chatsReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const getChats = (userId) => {
     dispatch(fetchChats(userId));
+  };
+
+  const addChat = (senderId, receiverId) => {
+    dispatch(createChat(senderId, receiverId));
   };
 
   const setChat = (chatId) => {
@@ -37,9 +76,17 @@ export const useChatsReducer = () => {
     });
   }
 
+  const unsetChat = () => {
+    dispatch({ 
+      type: types.DESELECT_CHAT,
+    });
+  }
+
   const chatsActions = {
     getChats,
+    addChat,
     setChat,
+    unsetChat,
   };
 
   return { chatsReducer, chatsActions };
