@@ -21,17 +21,9 @@ const App = () => {
   }, []);
 
   const onOpenChat = (receptorId) => {
-    const findChatFromReducer = (chat) =>
-      chat.users[0]._id === receptorId ||
-      chat.users[1]._id === receptorId;
-
-    const chat = chatsReducer.chats.find(
-      findChatFromReducer
-    );
-
     chatsActions.setChat(receptorId)
 
-    messagesActions.getMessages(chat._id);
+    messagesActions.getMessages(receptorId);
   }
 
   const onSendMessage = (message) => {
