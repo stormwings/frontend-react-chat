@@ -10,6 +10,7 @@ const Chat = ({ user, messages, onSendMessage, onGoBack }) => {
     <div className="flex flex-col flex-auto h-full p-6">
       <div
         className="text-indigo-600 hover:text-indigo-900"
+        style={{ cursor: "pointer" }}
         onClick={onGoBack}
       >
         {"< Go back"}

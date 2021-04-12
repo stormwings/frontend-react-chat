@@ -14,6 +14,7 @@ const UserList = ({ title, users, onClick }) => {
 
           return (
             <UserListItem
+              // (pending) generate color by name
               color={'indigo'}
               key={index}
               name={receiver.name}
