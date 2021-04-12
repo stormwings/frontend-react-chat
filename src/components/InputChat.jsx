@@ -28,6 +28,7 @@ const InputChat = ({ onSendMessage }) => {
               {...register('message')}
               type="text"
               className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
+              placeholder="Type your message here..."
             />
           </div>
         </div>
