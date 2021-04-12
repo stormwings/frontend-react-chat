@@ -29,9 +29,16 @@ export const createMessage = (chat, message, user) => (dispatch) => {
   Http.instance
     .post(urlMessages, { chat, message, user })
     .then(({ body }) => {
+      const newMessage = {
+        ...body,
+        user: {
+          _id: body.user
+        }
+      };
+
       dispatch({
         type: types.CREATE_MESSAGES_FULLFILLED,
-        payload: { newMessage: body },
+        payload: { newMessage: newMessage },
       });
     })
     .catch((error) => {
