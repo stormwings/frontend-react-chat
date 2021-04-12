@@ -30,8 +30,16 @@ export const useChatsReducer = () => {
     dispatch(fetchChats(userId));
   };
 
+  const setChat = (chatId) => {
+    dispatch({ 
+      type: types.SELECT_CHAT,
+      payload: { chatId },
+    });
+  }
+
   const chatsActions = {
     getChats,
+    setChat,
   };
 
   return { chatsReducer, chatsActions };

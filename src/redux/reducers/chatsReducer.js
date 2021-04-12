@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   loading: false,
   error: null,
   chats: [],
+  selectedChat: null,
 };
 
 const handleReceivedChats = (state, action) => {
@@ -24,6 +25,13 @@ const handleErrorOnFetch = (state, action) => {
   };
 };
 
+const handleOnSelectChat = (state, action) => {
+  return {
+    ...state,
+    selectedChat: action.payload.chatId
+  }
+}
+
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.FETCH_CHATS_FULLFILLED: {
@@ -31,6 +39,9 @@ const reducer = (state = INITIAL_STATE, action) => {
     }
     case types.FETCH_CHATS_REJECTED: {
       return handleErrorOnFetch(state, action);
+    }
+    case types.SELECT_CHAT: {
+      return handleOnSelectChat(state, action);
     }
     default:
       return state;
