@@ -47,7 +47,7 @@ const TableRow = ({ name, onSelect }) => {
 
   return (
     <tr
-      style={{ cursor: "pointer" }}
+      className="cursor-pointer"
       onClick={onSelect}
     >
       <td className="px-6 py-4 whitespace-nowrap">

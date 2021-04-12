@@ -62,6 +62,7 @@ const App = () => {
           account={account}
           contacts={chatsReducer.chats}
           onClick={onOpenChat}
+          onGoDashboard={onGoBackToMenu}
         />
         {
           messagesReducer.loading &&
