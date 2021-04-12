@@ -4,9 +4,7 @@ import PropTypes from 'prop-types'
 import UserList from './UserList'
 import IconChat from './icons/IconChat';
 
-const Nav = ({ account, contacts, onClick }) => {
-  const users = contacts.filter(contact => contact._id !== account._id);
-
+const Nav = ({ contacts, onClick }) => {
   return (
     <div className="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
       <NavTitle
@@ -15,7 +13,7 @@ const Nav = ({ account, contacts, onClick }) => {
       <div className="flex flex-col mt-8">
         <UserList
           title="Active Conversations"
-          users={users}
+          users={contacts}
           onClick={onClick}
         />
       </div>

@@ -10,14 +10,14 @@ const UserList = ({ title, users, onClick }) => {
       />
       <div className="flex flex-col space-y-1 mt-4 -mx-2 h-96 overflow-y-auto">
         {users.map((user, index) => {
-          const { _id, name, userTheme } = user;
+          const receiver = user.users[1];
 
           return (
             <UserListItem
-              color={userTheme}
+              color={'indigo'}
               key={index}
-              name={name}
-              onClick={() => onClick(_id)}
+              name={receiver.name}
+              onClick={() => onClick(receiver._id)}
             />
           );
         })}
@@ -59,7 +59,7 @@ const UserListItem = ({ color, name, onClick }) => {
       onClick={onClick}
     >
       <div className={`flex items-center justify-center h-8 w-8 bg-${color}-200 rounded-full`}>
-        { name.charAt(0).toUpperCase() }
+        { name && name.charAt(0).toUpperCase() }
       </div>
       <div className="ml-2 text-sm font-semibold">{ name }</div>
     </button>
@@ -67,8 +67,8 @@ const UserListItem = ({ color, name, onClick }) => {
 };
 
 UserListItem.propTypes = {
-  color: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  name: PropTypes.string,
   onClick: PropTypes.func,
 };
 

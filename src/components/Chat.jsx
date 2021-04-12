@@ -3,11 +3,17 @@ import PropTypes from 'prop-types'
 
 import InputChat from './InputChat';
 
-const Chat = ({ user, messages, onSendMessage }) => {
+const Chat = ({ user, messages, onSendMessage, onGoBack }) => {
   const { _id: myUserId } = user;
 
   return (
     <div className="flex flex-col flex-auto h-full p-6">
+      <div
+        className="text-indigo-600 hover:text-indigo-900"
+        onClick={onGoBack}
+      >
+        {"< Go back"}
+      </div>
       <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
         <div className="flex flex-col h-full overflow-x-auto mb-4">
           <div className="flex flex-col h-full">
@@ -41,6 +47,7 @@ Chat.propTypes = {
   user: PropTypes.object.isRequired,
   messages: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSendMessage: PropTypes.func,
+  onGoBack: PropTypes.func,
 }
 
 const MessageReceived = ({ message }) => {
