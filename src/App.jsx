@@ -29,13 +29,16 @@ const App = () => {
       findChatFromReducer
     );
 
+    chatsActions.setChat(receptorId)
+
     messagesActions.getMessages(chat._id);
   }
 
   const onSendMessage = (message) => {
-    const { chat, user: { _id: user } } = messagesReducer.messages[0];
+    const { selectedChat } = chatsReducer;
+    const { _id: userId } = account;
 
-    messagesActions.addMessage(chat, message, user);
+    messagesActions.addMessage(selectedChat, message, userId);
   }
 
   return (
@@ -46,11 +49,14 @@ const App = () => {
           contacts={usersReducer.users}
           onClick={onOpenChat}
         />
-        <Chat
-          messages={messagesReducer.messages}
-          user={account}
-          onSendMessage={onSendMessage}
-        />
+        {
+          chatsReducer.selectedChat &&
+            <Chat
+              messages={messagesReducer.messages}
+              user={account}
+              onSendMessage={onSendMessage}
+            />
+        }
       </div>
     </div>
   );
