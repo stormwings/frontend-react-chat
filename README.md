@@ -1,8 +1,9 @@
 # frontend-react-chat
 
 # pending tasks
-    - create user handle
+    - handle componentWrappers
+    - sockets
+    - clean all code
     - dark mode
-    - handle with routes and componentWrappers
     - tests with jest
     - project to typescript
