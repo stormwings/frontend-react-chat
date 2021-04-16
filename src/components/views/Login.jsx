@@ -15,7 +15,7 @@ const Login = () => {
   const onSubmit = (formData) => {
     const { username } = formData;
 
-    usersActions.findUser(username);
+    usersActions.findUser(username.toLowerCase());
     resetForm();
   }
 

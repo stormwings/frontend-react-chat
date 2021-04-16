@@ -53,6 +53,27 @@ const getUser = (username) => (dispatch) => {
     });
 };
 
+const createUser = (username) => (dispatch) => {
+  dispatch({ type: types.FETCH_ACCOUNT_PENDING });
+
+  const body = { name: username };
+
+  Http.instance
+    .post(urlUser, body)
+    .then(({ body }) => {
+      dispatch({
+        type: types.FETCH_ACCOUNT_FULLFILLED,
+        payload: { account: body },
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: types.FETCH_ACCOUNT_REJECTED,
+        payload: { error },
+      });
+    });
+};
+
 export const useUsersReducer = () => {
   const { usersReducer } = useSelector((state) => state);
   const { accountReducer } = useSelector((state) => state);
@@ -66,6 +87,10 @@ export const useUsersReducer = () => {
     dispatch(getUser(username))
   }
 
+  const addUser = (username) => {
+    dispatch(createUser(username));
+  }
+
   const logoutAccount = () => {
     dispatch({
       type: types.LOGOUT_ACCOUNT,
@@ -75,6 +100,7 @@ export const useUsersReducer = () => {
   const usersActions = {
     getUsers,
     findUser,
+    addUser,
     logoutAccount,
   };
 

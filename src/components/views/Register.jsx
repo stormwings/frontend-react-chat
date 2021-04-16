@@ -1,6 +1,25 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+import { Redirect, Link } from 'react-router-dom';
+
+import { useUsersReducer } from "./../../redux/actions/userActions";
+
 
 const Register = () => {
+  const { reset: resetForm, register, handleSubmit } = useForm();
+  const { accountReducer, usersActions } = useUsersReducer();
+
+  if (accountReducer.account) {
+    return <Redirect to={'/'} />;
+  }
+
+  const onSubmit = (formData) => {
+    const { username } = formData;
+
+    usersActions.addUser(username.toLowerCase());
+    resetForm();
+  }
+
   return (
     <section className="flex flex-col md:flex-row h-screen items-center">
       <div className="bg-indigo-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
@@ -15,7 +34,10 @@ const Register = () => {
           <h1 className="text-xl md:text-2xl font-bold leading-tight mt-12">
             User registration
           </h1>
-          <form className="mt-6" action="#" method="POST">
+          <form
+            className="mt-6" 
+            onSubmit={handleSubmit(onSubmit)}
+          >
             {/* <div>
               <label className="block text-gray-700">Email Address</label>
               <input
@@ -32,13 +54,14 @@ const Register = () => {
             <div>
               <label className="block text-gray-700">Username</label>
               <input
-                type="email"
+                type="text"
                 name=""
                 id=""
                 placeholder="Enter your username"
                 className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-                autocomplete
+                autoComplete="off"
                 required
+                {...register('username')}
               />
             </div>
             {/* <div className="mt-4">
@@ -78,7 +101,9 @@ const Register = () => {
             <button
               className="text-blue-500 hover:text-blue-700 font-semibold"
             >
-              Authenticate
+              <Link to="/login">
+                Authenticate
+              </Link>
             </button>
           </p>
         </div>
