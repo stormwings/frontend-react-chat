@@ -1,6 +1,19 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+
+import { useUsersReducer } from "./../../redux/actions/userActions";
 
 const Login = () => {
+  const { reset: resetForm, register, handleSubmit } = useForm();
+  const { accountReducer, usersActions } = useUsersReducer();
+
+  const onSubmit = (formData) => {
+    const { username } = formData;
+
+    usersActions.findUser(username);
+    resetForm();
+  }
+
   return (
     <section className="flex flex-col md:flex-row h-screen items-center">
       <div className="bg-indigo-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
@@ -16,18 +29,28 @@ const Login = () => {
           <h1 className="text-xl md:text-2xl font-bold leading-tight mt-12">
             Log in to your account
           </h1>
-          <form className="mt-6" action="#" method="POST">
+          <form
+            className="mt-6"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div>
+              {
+                accountReducer.error && 
+                <label className="block text-red-700">
+                  {accountReducer.error}
+                </label>
+              }
               <label className="block text-gray-700">Username</label>
               <input
                 type="username"
-                name=""
+                // name=""
                 id=""
                 placeholder="Enter Username"
                 className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-                autofocus
-                autocomplete
+                autoFocus
+                autoComplete="off"
                 required
+                {...register('username')}
               />
             </div>
             {/* <div>
