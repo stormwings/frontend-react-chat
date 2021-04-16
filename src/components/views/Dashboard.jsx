@@ -1,4 +1,6 @@
 import React from "react";
+import { Redirect } from 'react-router-dom';
+
 import Chat from "./../Chat";
 import Nav from "./../Nav";
 import ActiveUsers from "./../ActiveUsers";
@@ -6,20 +8,27 @@ import { useUsersReducer } from "./../../redux/actions/userActions";
 import { useChatsReducer } from "./../../redux/actions/chatActions";
 import { useMessagesReducer } from "./../../redux/actions/messageActions";
 
-const account = {
-  _id: "606fac61815c5d139eb553f5",
-};
-
 const App = () => {
-  const { usersReducer, usersActions } = useUsersReducer();
+  const {
+    accountReducer: { account },
+    usersReducer,
+    usersActions
+  } = useUsersReducer();
+
   const { chatsReducer, chatsActions } = useChatsReducer();
   const { messagesReducer, messagesActions } = useMessagesReducer();
 
   React.useEffect(() => {
     usersActions.getUsers();
-    chatsActions.getChats(account._id);
+    // pending make wrapper
+    if (account)
+      chatsActions.getChats(account._id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!account) {
+    return <Redirect to={'/login'} />;
+  }
 
   const onRequestChat = (userId) => {
     const activeChat = chatsReducer.chats.find((chat) => {

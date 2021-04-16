@@ -1,11 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Redirect, Link } from 'react-router-dom';
 
 import { useUsersReducer } from "./../../redux/actions/userActions";
 
 const Login = () => {
   const { reset: resetForm, register, handleSubmit } = useForm();
   const { accountReducer, usersActions } = useUsersReducer();
+
+  if (accountReducer.account) {
+    return <Redirect to={'/'} />;
+  }
 
   const onSubmit = (formData) => {
     const { username } = formData;
@@ -140,7 +145,9 @@ const Login = () => {
             <button
               className="text-blue-500 hover:text-blue-700 font-semibold"
             >
-              Create an account
+              <Link to="/register">
+                Create an account
+              </Link>
             </button>
           </p>
         </div>
