@@ -25,17 +25,62 @@ const fetchUsers = () => (dispatch) => {
     });
 };
 
+const getUser = (username) => (dispatch) => {
+  dispatch({ type: types.FETCH_ACCOUNT_PENDING });
+
+  Http.instance
+    .get(urlUser)
+    .then(({ body }) => {
+      const account = body.find(
+        (user) => user.name === username
+      );
+
+      if (!account) {
+        throw new Error('User not found');
+
+      } else {
+        dispatch({
+          type: types.FETCH_ACCOUNT_FULLFILLED,
+          payload: { account: account },
+        });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: types.FETCH_ACCOUNT_REJECTED,
+        payload: { error },
+      });
+    });
+};
+
 export const useUsersReducer = () => {
   const { usersReducer } = useSelector((state) => state);
+  const { accountReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const getUsers = () => {
     dispatch(fetchUsers())
   }
 
+  const findUser = (username) => {
+    dispatch(getUser(username))
+  }
+
+  const logoutAccount = () => {
+    dispatch({
+      type: types.LOGOUT_ACCOUNT,
+    });
+  }
+
   const usersActions = {
     getUsers,
+    findUser,
+    logoutAccount,
   };
 
-  return { usersReducer, usersActions };
+  return {
+    usersReducer,
+    accountReducer,
+    usersActions,
+  };
 };
