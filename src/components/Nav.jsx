@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import UserList from './UserList'
 import IconChat from './icons/IconChat';
 
-const Nav = ({ contacts, onClick, onGoDashboard }) => {
+const Nav = ({ account, contacts, onClick, onGoDashboard }) => {
   return (
     <div className="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
       <NavTitle
@@ -13,6 +13,7 @@ const Nav = ({ contacts, onClick, onGoDashboard }) => {
       />
       <div className="flex flex-col mt-8">
         <UserList
+          account={account}
           title="Active Conversations"
           users={contacts}
           onClick={onClick}
@@ -23,6 +24,7 @@ const Nav = ({ contacts, onClick, onGoDashboard }) => {
 }
 
 Nav.propTypes = {
+  account: PropTypes.object.isRequired,
   contacts: PropTypes.arrayOf(PropTypes.object).isRequired,
   onClick: PropTypes.func.isRequired,
   onGoDashboard: PropTypes.func,

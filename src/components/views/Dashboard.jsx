@@ -35,7 +35,7 @@ const App = () => {
       if (!chat.users)
         return false;
 
-      return chat.users[1]._id === userId;
+      return (chat.users[1]._id === userId) || (chat.users[0]._id === userId);
     });
 
     if (!activeChat) {
@@ -46,9 +46,9 @@ const App = () => {
     }
   }
 
-  const onOpenChat = (receptorId) => {
-    chatsActions.setChat(receptorId);
-    messagesActions.getMessages(receptorId);
+  const onOpenChat = (chatId) => {
+    chatsActions.setChat(chatId);
+    messagesActions.getMessages(chatId);
   };
 
   const onSendMessage = (message) => {
@@ -99,6 +99,7 @@ const App = () => {
           !chatsReducer.selectedChat &&
             <ActiveUsers
               users={users}
+              contacts={chatsReducer.chats}
               onSelect={onRequestChat}
             />
         }

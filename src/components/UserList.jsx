@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const UserList = ({ title, users, onClick }) => {
+const UserList = ({ account, title, users, onClick }) => {
   return (
     <React.Fragment>
       <UserListTitle
@@ -10,7 +10,7 @@ const UserList = ({ title, users, onClick }) => {
       />
       <div className="flex flex-col space-y-1 mt-4 -mx-2 h-96 overflow-y-auto">
         {users.map((user, index) => {
-          const receiver = user.users[1];
+          const receiver = user.users[1]._id === account._id ? user.users[0] : user.users[1];
 
           return (
             <UserListItem
@@ -18,7 +18,7 @@ const UserList = ({ title, users, onClick }) => {
               color={'indigo'}
               key={index}
               name={receiver.name}
-              onClick={() => onClick(receiver._id)}
+              onClick={() => onClick(user._id)}
             />
           );
         })}
@@ -28,6 +28,7 @@ const UserList = ({ title, users, onClick }) => {
 };
 
 UserList.propTypes = {
+  account: PropTypes.object,
   title: PropTypes.string.isRequired,
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   onClick: PropTypes.func,
