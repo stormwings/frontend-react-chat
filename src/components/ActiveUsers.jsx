@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const ActiveUsers = ({ users, onSelect }) => {
+const ActiveUsers = ({ contacts, users, onSelect }) => {
   return (
     <div className="flex flex-col flex-auto h-full p-6">
       <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
@@ -14,8 +14,14 @@ const ActiveUsers = ({ users, onSelect }) => {
                   <tbody className="bg-white divide-y divide-gray-200">
                     {
                       users.map((user, index) => {
-                        const { name } = user;
+                        const { _id, name } = user;
                         const selectUser = () => onSelect(user._id);
+                        
+                        const existChat = contacts.find(chat => chat.users[0]._id === _id || chat.users[1]._id === _id)
+
+                        if (existChat) {
+                          return null
+                        }
 
                         return (
                           <TableRow
