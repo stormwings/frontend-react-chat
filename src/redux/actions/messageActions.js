@@ -28,19 +28,6 @@ export const createMessage = (chat, message, user) => (dispatch) => {
 
   Http.instance
     .post(urlMessages, { chat, message, user })
-    .then(({ body }) => {
-      const newMessage = {
-        ...body,
-        user: {
-          _id: body.user
-        }
-      };
-
-      dispatch({
-        type: types.CREATE_MESSAGES_FULLFILLED,
-        payload: { newMessage: newMessage },
-      });
-    })
     .catch((error) => {
       dispatch({
         type: types.CREATE_MESSAGES_REJECTED,
@@ -61,9 +48,24 @@ export const useMessagesReducer = () => {
     dispatch(createMessage(chat, message, user))
   };
 
+  const injectMessage = (message) => {
+    const newMessage = {
+      ...message,
+      user: {
+        _id: message.user
+      }
+    };
+
+    dispatch({
+      type: types.CREATE_MESSAGES_FULLFILLED,
+      payload: { newMessage: newMessage },
+    });
+  }
+
   const messagesActions = {
     getMessages,
     addMessage,
+    injectMessage,
   };
 
   return { messagesReducer, messagesActions };
